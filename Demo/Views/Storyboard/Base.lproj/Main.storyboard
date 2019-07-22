@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -37,7 +38,37 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A4r-zU-mfF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1600" y="66"/>
+            <point key="canvasLocation" x="1643" y="61"/>
+        </scene>
+        <!--Movie DetailVC-->
+        <scene sceneID="AlL-ZX-dbh">
+            <objects>
+                <viewController storyboardIdentifier="MovieDetailVC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rYr-iJ-HR0" customClass="MovieDetailVC" customModule="Demo" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ANV-tb-Ykg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="XwA-dY-rgf">
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="DCN-n1-GO2" firstAttribute="trailing" secondItem="XwA-dY-rgf" secondAttribute="trailing" id="7b5-ey-P1P"/>
+                            <constraint firstItem="XwA-dY-rgf" firstAttribute="top" secondItem="DCN-n1-GO2" secondAttribute="top" id="NnN-tD-Fb2"/>
+                            <constraint firstAttribute="bottom" secondItem="XwA-dY-rgf" secondAttribute="bottom" id="TS2-Pc-Dah"/>
+                            <constraint firstItem="XwA-dY-rgf" firstAttribute="leading" secondItem="DCN-n1-GO2" secondAttribute="leading" id="kB2-PA-phx"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="DCN-n1-GO2"/>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="XwA-dY-rgf" id="sK6-do-VZU"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8eX-yP-Cpd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2300" y="61"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="OqU-Et-O7z">
@@ -47,6 +78,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="epR-Gx-1bT">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="barTintColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -56,29 +89,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nCu-bs-K6j" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="987" y="61"/>
-        </scene>
-        <!--Movie DetailTVC-->
-        <scene sceneID="e3I-OG-oqH">
-            <objects>
-                <tableViewController storyboardIdentifier="MovieDetailTVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="gGk-ig-lp6" customClass="MovieDetailTVC" customModule="Demo" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="bZK-Es-Phi">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <sections/>
-                        <connections>
-                            <outlet property="dataSource" destination="gGk-ig-lp6" id="XjY-ll-9Ce"/>
-                            <outlet property="delegate" destination="gGk-ig-lp6" id="XYB-5l-XoX"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="xfL-4o-K3j">
-                        <barButtonItem key="backBarButtonItem" title=" " id="oxW-Ik-AxJ"/>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="URV-1c-7gu" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2226.0869565217395" y="60.9375"/>
         </scene>
     </scenes>
 </document>

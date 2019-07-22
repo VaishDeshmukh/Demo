@@ -1,5 +1,5 @@
 //
-//  MovieDetailTVC.swift
+//  MovieDetailVC.swift
 //  Demo
 //
 //  Created by Vaishu on 21/7/19.
@@ -8,10 +8,10 @@
 
 import UIKit
 
-class MovieDetailTVC: UITableViewController {
-
-    @IBOutlet var headerView: UIView!
+class MovieDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
     //MARK:- Enumerations
+    
+    @IBOutlet var tableView: UITableView!
     
     fileprivate enum screen {
         enum titleCell: String {
@@ -27,7 +27,7 @@ class MovieDetailTVC: UITableViewController {
             case identifier = "cell-with-similarMovies"
         }
         enum controllers: String {
-            case detail = "MovieDetailTVC"
+            case detail = "MovieDetailVC"
         }
     }
     
@@ -37,33 +37,93 @@ class MovieDetailTVC: UITableViewController {
         case SimilarMovies
     }
     
+    fileprivate enum Threshold: CGFloat {
+        case header = -64
+        case top = 0
+    }
+    
     //MARK:- Properties
     
     var movie:Movie? = nil
     var movie_id = -1
     fileprivate var similarMovies:[Movie] = []
-    fileprivate var headerTitle = "SimilarMovies"
+    fileprivate var headerTitle = "Similar Movies"
+    var preview:UIImage? = nil
+    fileprivate lazy var headerView:BaseHeaderView = {
+        return BaseHeaderView()
+    }()
     
     //MARK:- Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        prepareNavBar()
         registerComponents()
         
+        //load data and image
         guard let movie = movie else {
             return
         }
-        if let id = movie.id {
-            getSimilarMovies(movie: movie, movieId: id)
+        reloadData(withMovie: movie, withPreviewImage: self.preview)
+       
+        tableView.tableFooterView = UIView(frame: .zero)
+        tableView.tableHeaderView = UIView(frame: .zero)
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+        //adjust header view based on aspect ratio
+        var height = view.frame.height * 0.5
+        if let previewImg = preview {
+            let tmpHeight = (previewImg.size.height / previewImg.size.width) * view.frame.width
+            if tmpHeight > height {
+                height = tmpHeight * 0.7
+            } else {
+                height = tmpHeight
+            }
         }
         
-        tableView.tableFooterView = UIView(frame: .zero)
+        headerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: height)
+        view.addSubview(headerView)
+        
+        let origin = CGPoint(x: 0, y: -height)
+        tableView.contentOffset = origin
+        tableView.contentInset = UIEdgeInsets(top: height, left: 0, bottom: 0, right: 0)
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.backgroundColor = .clear
+        navigationController?.navigationBar.hideBottomHairline()
+        navigationController?.navigationBar.setGradientBackground(colors: [
+            UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1),
+            UIColor.clear
+            ])
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        headerView.removeFromSuperview()
+        
+        // reset navbar if controller is pushed via storyboard
+        navigationController?.navigationBar.barTintColor = .magenta
+        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
+        navigationController?.navigationBar.shadowImage = nil
+        
+        super.viewWillDisappear(animated)
+    }
+    
+    // MARK: - Private
+    
+    fileprivate func prepareNavBar() {
         self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
     }
-    
-    // MARK: - Private
     
     fileprivate func registerComponents() {
         let titleCell = UINib(nibName: screen.titleCell.module.rawValue, bundle: Bundle.main)
@@ -79,15 +139,15 @@ class MovieDetailTVC: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+     func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         switch indexPath.section {
         case SectionIndex.Title.rawValue:
@@ -114,7 +174,7 @@ class MovieDetailTVC: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if indexPath.section == SectionIndex.SimilarMovies.rawValue {
             return 200.0
         } else {
@@ -122,7 +182,7 @@ class MovieDetailTVC: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         if section == SectionIndex.SimilarMovies.rawValue {
             return headerTitle
         } else {
@@ -130,30 +190,33 @@ class MovieDetailTVC: UITableViewController {
         }
     }
     
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == SectionIndex.SimilarMovies.rawValue {
             return 40.0
         }
         return CGFloat.leastNormalMagnitude
-        
     }
     
-    override func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return CGFloat.leastNormalMagnitude
     }
 }
 
 //MARK:- Network calls
 
-extension MovieDetailTVC {
-    fileprivate func getSimilarMovies(movie: Movie?, movieId: Int) {
-        
-        self.movie = movie
+extension MovieDetailVC {
+  
+    fileprivate func reloadData(withMovie similarMovie: Movie?, withPreviewImage previewImage:UIImage?) {
+
+        //set default image & details
+        preview = previewImage
+        headerView.imageView.image = previewImage
+        self.movie = similarMovie
 
         if let movie = self.movie {
             guard let id = movie.id else { return }
             let payload = ["id": id] as [String: Any]
-
+        
             // Get similar movies
             Movie.getSimilarMovies(data: payload, completion: {(similarMovies, pager, error) in
                 
@@ -164,7 +227,10 @@ extension MovieDetailTVC {
 
                     if let similarMoviesArray = similarMovies {
                         self.similarMovies = Array(similarMoviesArray.prefix(10))//limit to 10 similar Medias
-                        self.tableView.reloadSections(NSIndexSet(index: SectionIndex.SimilarMovies.rawValue) as IndexSet, with: .none)
+                        let indexPath = IndexPath(row: 0, section: SectionIndex.SimilarMovies.rawValue)
+                        if self.tableView.indexPathsForVisibleRows?.contains(indexPath) == true {
+                            self.tableView.reloadRows(at: [indexPath], with: .none)
+                        }
                         }
                     }
                 }
@@ -175,14 +241,36 @@ extension MovieDetailTVC {
 
 //MARK: - CellWithSimilarMoviesDelegate
 
-extension MovieDetailTVC: CellWithSimilarMoviesDelegate {
+extension MovieDetailVC: CellWithSimilarMoviesDelegate {
     internal func didSelectSimilarItem(atCollectionIndexPath indexPath: IndexPath, withPreviewImage previewImage: UIImage?) {
         
-        if let vc = self.storyboard?.instantiateViewController(withIdentifier: screen.controllers.detail.rawValue) as? MovieDetailTVC {
-//            vc.preview = previewImage
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: screen.controllers.detail.rawValue) as? MovieDetailVC {
+            vc.preview = previewImage
             vc.movie = similarMovies[indexPath.row]
             navigationController?.pushViewController(vc, animated: true)
         }
     }
 }
 
+
+// MARK: - UIScrollViewDelegate
+
+extension MovieDetailVC: UIScrollViewDelegate {
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if(scrollView.isTracking || scrollView.isDragging || scrollView.isDecelerating) {
+            if scrollView.contentOffset.y >= Threshold.header.rawValue {
+                navigationController?.navigationBar.topItem?.title = movie?.title
+            } else {
+                navigationController?.navigationBar.topItem?.title = nil
+            }
+        }
+        
+        if scrollView.contentOffset.y < Threshold.top.rawValue {
+            headerView.frame.size.height = -scrollView.contentOffset.y
+        } else {
+            headerView.frame.size.height = 0
+        }
+    }
+}

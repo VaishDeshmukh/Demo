@@ -19,13 +19,13 @@ class MainTVC: UITableViewController {
             case module = "MovieTableViewCell"
         }
         enum controllers: String {
-            case detail = "MovieDetailTVC"
+            case detail = "MovieDetailVC"
         }
     }
     
     //MARK:- Properties
     
-    let detailView = MovieDetailTVC()
+    let detailView = MovieDetailVC()
     fileprivate var currentPage = 1
     fileprivate lazy var movies = {
         return [Movie]()
@@ -55,6 +55,20 @@ class MainTVC: UITableViewController {
         fetchMovie()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        self.navigationController?.navigationBar.backgroundColor = .magenta
+        self.navigationController?.navigationBar.tintColor = .magenta
+        self.navigationController?.navigationBar.barTintColor = UIColor.magenta
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.largeTitleDisplayMode = .automatic
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+    }
     // MARK: - Private
     fileprivate func registerComponents() {
         let movieCell = UINib(nibName: screen.movieCell.module.rawValue, bundle: Bundle.main)
@@ -68,8 +82,6 @@ class MainTVC: UITableViewController {
         refreshControl?.endRefreshing()
     }
 }
-
-
 
 // MARK: - Table view data source & delegates
 
@@ -100,7 +112,13 @@ extension MainTVC {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: screen.controllers.detail.rawValue) as! MovieDetailTVC
+        let vc = self.storyboard?.instantiateViewController(withIdentifier: screen.controllers.detail.rawValue) as! MovieDetailVC
+        let cell = tableView.cellForRow(at: indexPath) as! MovieTableViewCell
+
+        guard let image = cell.moviePoster.image else {
+            return
+        }
+        vc.preview = image
         vc.movie_id = movies[indexPath.row].id
         vc.movie = movies[indexPath.row]
         navigationController?.pushViewController(vc, animated: true)
