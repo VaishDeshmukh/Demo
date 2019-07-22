@@ -58,7 +58,7 @@ class MovieDetailTVC: UITableViewController {
         }
         
         tableView.tableFooterView = UIView(frame: .zero)
-        self.navigationController?.navigationBar.prefersLargeTitles = trueA
+        self.navigationController?.navigationBar.prefersLargeTitles = true
         self.navigationItem.largeTitleDisplayMode = .never
         self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
     }
