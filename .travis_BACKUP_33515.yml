@@ -1,5 +1,9 @@
 language: swift 
 xcode_workspace: Demo.xcworkspace # path to your xcodeproj folder
+<<<<<<< HEAD
+xcode_scheme: DemoUITests
+=======
 xcode_scheme: DemoTests
+>>>>>>> b4ca0723fc166889edb84c06ca06f99d40582340
 xcode_destination: platform=iOS Simulator,OS=11.4,name=iPhone X
 podfile: path/to/Podfile
