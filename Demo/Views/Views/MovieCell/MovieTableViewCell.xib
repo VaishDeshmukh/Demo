@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="movie-cell" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="movie-cell" rowHeight="232" id="0KD-Ku-4Ek" customClass="MovieTableViewCell" customModule="Demo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="430" height="232"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="0KD-Ku-4Ek" id="llL-Km-2s0">
+                <rect key="frame" x="0.0" y="0.0" width="430" height="231.5"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholderImage" adjustsImageSizeForAccessibilityContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lQ1-5M-qLj">
+                        <rect key="frame" x="0.0" y="40" width="430" height="191.5"/>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LzV-3G-hfI">
+                        <rect key="frame" x="8" y="8" width="414" height="24"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="24" id="geh-x9-m1T"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="1P3-SL-kt4" customClass="SpinnerView" customModule="Demo" customModuleProvider="target">
+                        <rect key="frame" x="205" y="126" width="20" height="20"/>
+                    </activityIndicatorView>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="LzV-3G-hfI" firstAttribute="leading" secondItem="llL-Km-2s0" secondAttribute="leading" constant="8" id="C1O-Mp-aGb"/>
+                    <constraint firstItem="1P3-SL-kt4" firstAttribute="centerX" secondItem="lQ1-5M-qLj" secondAttribute="centerX" id="IbR-4Z-a78"/>
+                    <constraint firstItem="1P3-SL-kt4" firstAttribute="centerY" secondItem="lQ1-5M-qLj" secondAttribute="centerY" id="UsP-zW-Cla"/>
+                    <constraint firstAttribute="trailing" secondItem="LzV-3G-hfI" secondAttribute="trailing" constant="8" id="ZI8-iX-agD"/>
+                    <constraint firstItem="LzV-3G-hfI" firstAttribute="top" secondItem="llL-Km-2s0" secondAttribute="top" constant="8" id="bPf-1d-SQ3"/>
+                    <constraint firstAttribute="trailing" secondItem="lQ1-5M-qLj" secondAttribute="trailing" id="bxT-dR-4wq"/>
+                    <constraint firstItem="lQ1-5M-qLj" firstAttribute="leading" secondItem="llL-Km-2s0" secondAttribute="leading" id="eXy-xi-2h1"/>
+                    <constraint firstAttribute="bottom" secondItem="lQ1-5M-qLj" secondAttribute="bottom" id="etq-rw-kyH"/>
+                    <constraint firstItem="lQ1-5M-qLj" firstAttribute="top" secondItem="LzV-3G-hfI" secondAttribute="bottom" constant="8" id="myk-rz-g92"/>
+                </constraints>
+            </tableViewCellContentView>
+            <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+            <connections>
+                <outlet property="moviePoster" destination="lQ1-5M-qLj" id="C2W-C2-FER"/>
+                <outlet property="movieTitle" destination="LzV-3G-hfI" id="oLa-wf-2lX"/>
+                <outlet property="spinner" destination="1P3-SL-kt4" id="Q4i-lX-xoW"/>
+            </connections>
+            <point key="canvasLocation" x="-168" y="-104"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="placeholderImage" width="375" height="181"/>
+    </resources>
+</document>
