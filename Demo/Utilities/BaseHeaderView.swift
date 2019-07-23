@@ -41,7 +41,7 @@ class BaseHeaderView: UIView {
         
         addConstraints(NSLayoutConstraint.constraints(
             withVisualFormat: "V:[containerView]|",
-            options: NSLayoutConstraint.FormatOptions(rawValue: 0),
+            options: NSLayoutConstraint.FormatOptions(rawValue: 20),
             metrics: nil,
             views: ["containerView" : containerView])
         )
@@ -59,10 +59,10 @@ class BaseHeaderView: UIView {
         addConstraint(containerLayoutConstraint)
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = UIColor.white
+        imageView.backgroundColor = UIColor.magenta
         imageView.clipsToBounds = true
-        imageView.contentMode = .scaleAspectFill
-        
+        imageView.contentMode = .scaleToFill
+            
         containerView.addSubview(imageView)
         
         containerView.addConstraints(NSLayoutConstraint.constraints(

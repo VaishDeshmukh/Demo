@@ -9,8 +9,8 @@
 import UIKit
 
 class MovieDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    //MARK:- Enumerations
     
+    //MARK:- Enumerations
     @IBOutlet var tableView: UITableView!
     
     fileprivate enum screen {
@@ -43,23 +43,22 @@ class MovieDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
     
     //MARK:- Properties
-    
     var movie:Movie? = nil
     var movie_id = -1
     fileprivate var similarMovies:[Movie] = []
     fileprivate var headerTitle = "Similar Movies"
+    fileprivate let bulletPointer =  " \u{2022} "
     var preview:UIImage? = nil
     fileprivate lazy var headerView:BaseHeaderView = {
         return BaseHeaderView()
     }()
-    
+   
     //MARK:- Lifecycle
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        prepareNavBar()
+    
         registerComponents()
+        prepareNavBarItems()
         
         //load data and image
         guard let movie = movie else {
@@ -71,6 +70,8 @@ class MovieDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         tableView.tableHeaderView = UIView(frame: .zero)
         tableView.delegate = self
         tableView.dataSource = self
+        tableView.estimatedSectionHeaderHeight = 0.01
+        tableView.estimatedSectionFooterHeight = 0.01
     }
     
     override func viewDidLayoutSubviews() {
@@ -86,45 +87,15 @@ class MovieDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
                 height = tmpHeight
             }
         }
-        
         headerView.frame = CGRect(x: 0, y: 0, width: view.bounds.width, height: height)
         view.addSubview(headerView)
         
         let origin = CGPoint(x: 0, y: -height)
         tableView.contentOffset = origin
         tableView.contentInset = UIEdgeInsets(top: height, left: 0, bottom: 0, right: 0)
+    }
 
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.navigationBar.backgroundColor = .clear
-        navigationController?.navigationBar.hideBottomHairline()
-        navigationController?.navigationBar.setGradientBackground(colors: [
-            UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 1),
-            UIColor.clear
-            ])
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        headerView.removeFromSuperview()
-        
-        // reset navbar if controller is pushed via storyboard
-        navigationController?.navigationBar.barTintColor = .magenta
-        navigationController?.navigationBar.setBackgroundImage(nil, for: .default)
-        navigationController?.navigationBar.shadowImage = nil
-        
-        super.viewWillDisappear(animated)
-    }
-    
     // MARK: - Private
-    
-    fileprivate func prepareNavBar() {
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .never
-        self.navigationItem.backBarButtonItem = UIBarButtonItem(title:"", style:.plain, target:nil, action:nil)
-    }
-    
     fileprivate func registerComponents() {
         let titleCell = UINib(nibName: screen.titleCell.module.rawValue, bundle: Bundle.main)
         tableView.register(titleCell, forCellReuseIdentifier: screen.titleCell.identifier.rawValue)
@@ -137,8 +108,20 @@ class MovieDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
         tableView.register(similarMoviesCell, forCellReuseIdentifier: screen.similarMoviesCell.identifier.rawValue)
     }
 
-    // MARK: - Table view data source
+    fileprivate func prepareNavBarItems() {
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            image: UIImage(named: "cross"),
+            style: .plain, target: self,
+            action: #selector(didPressCloseButton)
+        )
+    }
 
+    // MARK:- Actions
+    @IBAction func didPressCloseButton(_ sender: UIBarButtonItem) {
+        dismiss(animated:true, completion:nil)
+    }
+    
+    // MARK: - Table view data source
      func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
@@ -148,13 +131,20 @@ class MovieDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
     }
 
      func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
         switch indexPath.section {
         case SectionIndex.Title.rawValue:
             let cell = tableView.dequeueReusableCell(withIdentifier: screen.titleCell.identifier.rawValue, for: indexPath) as! CellWithLabels
-            if let movie = movie {
+            
+            if let movie = movie, let release_date = movie.release_date {
                 cell.movieTitle.text = movie.title
-                cell.releaseYearTitle.text = movie.release_date
+                
+                let date = dateFromString(string: release_date)
+                if let date = date, let language = movie.original_language {
+                    let calendar = Calendar.current
+                    let release_year = calendar.component(.year, from: date)
+                    cell.releaseYearTitle.text = bulletPointer + language + bulletPointer + String(release_year)
+                }
+                
             }
             return cell
         case SectionIndex.Description.rawValue:
@@ -193,24 +183,24 @@ class MovieDetailVC: UIViewController, UITableViewDelegate, UITableViewDataSourc
      func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == SectionIndex.SimilarMovies.rawValue {
             return 40.0
+        } else {
+            return 0.01
         }
-        return CGFloat.leastNormalMagnitude
     }
     
      func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return CGFloat.leastNormalMagnitude
+        return 0.01
     }
 }
 
 //MARK:- Network calls
-
 extension MovieDetailVC {
-  
     fileprivate func reloadData(withMovie similarMovie: Movie?, withPreviewImage previewImage:UIImage?) {
 
         //set default image & details
         preview = previewImage
         headerView.imageView.image = previewImage
+
         self.movie = similarMovie
 
         if let movie = self.movie {
@@ -240,23 +230,21 @@ extension MovieDetailVC {
 }
 
 //MARK: - CellWithSimilarMoviesDelegate
-
 extension MovieDetailVC: CellWithSimilarMoviesDelegate {
     internal func didSelectSimilarItem(atCollectionIndexPath indexPath: IndexPath, withPreviewImage previewImage: UIImage?) {
         
         if let vc = self.storyboard?.instantiateViewController(withIdentifier: screen.controllers.detail.rawValue) as? MovieDetailVC {
             vc.preview = previewImage
             vc.movie = similarMovies[indexPath.row]
-            navigationController?.pushViewController(vc, animated: true)
+            let nvc = TransparentNavigationController(rootViewController: vc)
+            present(nvc, animated: true, completion: nil)
         }
     }
 }
 
 
 // MARK: - UIScrollViewDelegate
-
 extension MovieDetailVC: UIScrollViewDelegate {
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         
         if(scrollView.isTracking || scrollView.isDragging || scrollView.isDecelerating) {

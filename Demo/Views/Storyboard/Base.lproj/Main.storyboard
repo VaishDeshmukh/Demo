@@ -10,7 +10,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--MainTVC-->
+        <!--HOOQ Demo-->
         <scene sceneID="G6T-eh-NdC">
             <objects>
                 <tableViewController storyboardIdentifier="MainTVC" useStoryboardIdentifierAsRestorationIdentifier="YES" id="70p-2q-aXS" customClass="MainTVC" customModule="Demo" customModuleProvider="target" sceneMemberID="viewController">
@@ -25,8 +25,8 @@
                             <outlet property="delegate" destination="70p-2q-aXS" id="OzD-R0-fUL"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="26K-nR-gzC"/>
-                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="HOOQ Demo" leftItemsSupplementBackButton="YES" id="26K-nR-gzC"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="vPd-YM-76f">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -38,48 +38,51 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="A4r-zU-mfF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1643" y="61"/>
+            <point key="canvasLocation" x="1712" y="61"/>
         </scene>
         <!--Movie DetailVC-->
         <scene sceneID="AlL-ZX-dbh">
             <objects>
-                <viewController storyboardIdentifier="MovieDetailVC" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rYr-iJ-HR0" customClass="MovieDetailVC" customModule="Demo" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MovieDetailVC" extendedLayoutIncludesOpaqueBars="YES" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="rYr-iJ-HR0" customClass="MovieDetailVC" customModule="Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ANV-tb-Ykg">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="XwA-dY-rgf">
-                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
-                                <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" dataMode="prototypes" style="plain" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="XwA-dY-rgf">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="DCN-n1-GO2" firstAttribute="trailing" secondItem="XwA-dY-rgf" secondAttribute="trailing" id="7b5-ey-P1P"/>
-                            <constraint firstItem="XwA-dY-rgf" firstAttribute="top" secondItem="DCN-n1-GO2" secondAttribute="top" id="NnN-tD-Fb2"/>
+                            <constraint firstItem="XwA-dY-rgf" firstAttribute="top" secondItem="ANV-tb-Ykg" secondAttribute="top" id="NnN-tD-Fb2"/>
                             <constraint firstAttribute="bottom" secondItem="XwA-dY-rgf" secondAttribute="bottom" id="TS2-Pc-Dah"/>
                             <constraint firstItem="XwA-dY-rgf" firstAttribute="leading" secondItem="DCN-n1-GO2" secondAttribute="leading" id="kB2-PA-phx"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="DCN-n1-GO2"/>
                     </view>
+                    <toolbarItems/>
                     <connections>
                         <outlet property="tableView" destination="XwA-dY-rgf" id="sK6-do-VZU"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8eX-yP-Cpd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2300" y="61"/>
+            <point key="canvasLocation" x="2539" y="61"/>
         </scene>
-        <!--Navigation Controller-->
+        <!--Base Navigation Controller-->
         <scene sceneID="OqU-Et-O7z">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="IPy-8P-YAS" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="BaseNavigationController" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="IPy-8P-YAS" customClass="BaseNavigationController" customModule="Demo" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" largeTitles="YES" id="epR-Gx-1bT">
                         <rect key="frame" x="0.0" y="44" width="414" height="96"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
-                        <color key="barTintColor" red="1" green="0.0" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>

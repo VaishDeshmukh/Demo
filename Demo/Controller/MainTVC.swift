@@ -12,7 +12,6 @@ import KeychainSwift
 class MainTVC: UITableViewController {
     
     // MARK: Enumeration
-    
     enum screen {
         enum movieCell: String {
             case identifier = "movie-cell"
@@ -24,7 +23,6 @@ class MainTVC: UITableViewController {
     }
     
     //MARK:- Properties
-    
     let detailView = MovieDetailVC()
     fileprivate var currentPage = 1
     fileprivate lazy var movies = {
@@ -38,7 +36,6 @@ class MainTVC: UITableViewController {
     }()
     
     // MARK: - Lifecycle
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -46,29 +43,13 @@ class MainTVC: UITableViewController {
         view.addSubview(spinner)
         
         registerComponents()
-    
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .automatic
-        self.navigationController?.navigationBar.barTintColor = UIColor.magenta
+
         self.navigationItem.title = "HOOQ Demo"
-        
+        tableView.tableFooterView = UIView(frame: .zero)
+
         fetchMovie()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-        self.navigationController?.navigationBar.backgroundColor = .magenta
-        self.navigationController?.navigationBar.tintColor = .magenta
-        self.navigationController?.navigationBar.barTintColor = UIColor.magenta
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        self.navigationItem.largeTitleDisplayMode = .automatic
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        
-    }
     // MARK: - Private
     fileprivate func registerComponents() {
         let movieCell = UINib(nibName: screen.movieCell.module.rawValue, bundle: Bundle.main)
@@ -76,7 +57,6 @@ class MainTVC: UITableViewController {
     }
     
     // MARK:- Actions
-
     @IBAction func didPullToRefresh(_ sender: UIRefreshControl) {
         fetchMovie()
         refreshControl?.endRefreshing()
@@ -84,7 +64,6 @@ class MainTVC: UITableViewController {
 }
 
 // MARK: - Table view data source & delegates
-
 extension MainTVC {
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -112,16 +91,38 @@ extension MainTVC {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: screen.controllers.detail.rawValue) as! MovieDetailVC
-        let cell = tableView.cellForRow(at: indexPath) as! MovieTableViewCell
-
-        guard let image = cell.moviePoster.image else {
-            return
+        
+        if let vc = self.storyboard?.instantiateViewController(withIdentifier: screen.controllers.detail.rawValue) as? MovieDetailVC {
+            let cell = tableView.cellForRow(at: indexPath) as! MovieTableViewCell
+            
+            guard let image = cell.moviePoster.image else {
+                return
+            }
+            vc.preview = image
+            vc.movie = movies[indexPath.row]
+            
+             let nvc = TransparentNavigationController(rootViewController: vc)
+            
+            present(nvc, animated: true, completion: nil)
+            
+            
+            /*
+             let nvc = GradientNavigationController(rootViewController: vc)
+             
+             modalTransitioningDelegate = ModalTransitioningDelegate(
+             viewController: self,
+             presentingViewController: nvc
+             )
+             
+             nvc.modalPresentationStyle = .custom
+             nvc.transitioningDelegate = modalTransitioningDelegate
+             
+             vc.user = medium[at].user
+             vc.delegate = self
+             
+             present(nvc, animated: true, completion: nil)
+             */
         }
-        vc.preview = image
-        vc.movie_id = movies[indexPath.row].id
-        vc.movie = movies[indexPath.row]
-        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

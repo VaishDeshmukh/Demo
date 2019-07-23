@@ -19,29 +19,29 @@
                 <rect key="frame" x="0.0" y="0.0" width="347" height="67.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cnk-eZ-s4x">
-                        <rect key="frame" x="10" y="37" width="327" height="21"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Release Year" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cnk-eZ-s4x">
+                        <rect key="frame" x="10" y="34" width="327" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="lm3-wo-Mgr"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O3i-Ly-qM4">
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Movie Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O3i-Ly-qM4">
                         <rect key="frame" x="8" y="8" width="331" height="21"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="7qm-by-61l"/>
                         </constraints>
-                        <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="cnk-eZ-s4x" firstAttribute="top" secondItem="O3i-Ly-qM4" secondAttribute="bottom" constant="8" id="Hhb-L1-KyS"/>
+                    <constraint firstItem="cnk-eZ-s4x" firstAttribute="top" secondItem="O3i-Ly-qM4" secondAttribute="bottom" constant="5" id="Hhb-L1-KyS"/>
                     <constraint firstItem="cnk-eZ-s4x" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="10" id="OIb-xT-g2v"/>
-                    <constraint firstAttribute="bottom" secondItem="cnk-eZ-s4x" secondAttribute="bottom" constant="8" id="RWs-Xq-z4q"/>
+                    <constraint firstAttribute="bottom" secondItem="cnk-eZ-s4x" secondAttribute="bottom" constant="5" id="RWs-Xq-z4q"/>
                     <constraint firstItem="O3i-Ly-qM4" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="UF2-aM-Bh2"/>
                     <constraint firstItem="O3i-Ly-qM4" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="8" id="fEI-QV-WNL"/>
                     <constraint firstAttribute="trailing" secondItem="cnk-eZ-s4x" secondAttribute="trailing" constant="10" id="oit-r5-Zyq"/>
